@@ -1,0 +1,25 @@
+{
+    "name": "christophedlr/php-dbm",
+    "description": "php-dbm is an library for generate and execute a query for multiple database with PDO",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Christophe Daloz - De Los Rios",
+            "email": "christophedlr@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Christophedlr\\Dbm\\": "src/",
+            "Christophedlr\\Dbm\\Tests\\": "tests/"
+        }
+    },
+    "require": {
+        "php": "^7.2|^7.3|^7.4"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3.5",
+        "phpunit/phpunit": "^8.5"
+    }
+}
