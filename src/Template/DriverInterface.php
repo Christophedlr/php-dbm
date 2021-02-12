@@ -12,15 +12,18 @@ interface DriverInterface
 
     /**
      * Select type of query
+     * @param string $field Name of field
+     * @param string $table Name of table
+     * @param string $as Alias of field
      * @return $this
      */
-    public function select(): self;
+    public function select(string $field = '', string $table = '', string $as = ''): self;
 
     /**
      * Select all fields
      * @return $this
      */
-    public function all(): self;
+    public function all(string $table = ''): self;
 
     /**
      * Table concerning by query
