@@ -109,8 +109,8 @@ class MysqlDriver implements DriverInterface
             }
 
             $condition = preg_replace(
-                '#^(\w{1,})(\s{0,}[=]\s{0,})(.+)$#',
-                '`$1`$2$3',
+                '#(\w{1,})(\s{0,}(=|>|<|>=|<=|<>|!=)\s{0,})(.+)$#',
+                '`$1`$2$4',
                 $where['condition']
             );
             $clause .= (is_string($condition)) ? $condition : $where['condition'];

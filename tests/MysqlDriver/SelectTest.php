@@ -129,4 +129,89 @@ class SelectTest extends TestCase
 
         $this->assertEquals("SELECT * FROM `test` WHERE `id` = 0 AND `name`='test';", $query);
     }
+
+    /**
+     * Test if select all field in test table with greater than where clause
+     */
+    public function testSelectWhereIdGreaterThan()
+    {
+        $query = $this->dbm
+            ->select()
+            ->all()
+            ->from('test')
+            ->andWhere('id > 0')
+            ->query();
+
+        $this->assertEquals('SELECT * FROM `test` WHERE `id` > 0;', $query);
+    }
+
+    /**
+     * Test if select all field in test table with lesser than where clause
+     */
+    public function testSelectWhereIdLesserThan()
+    {
+        $query = $this->dbm
+            ->select()
+            ->all()
+            ->from('test')
+            ->andWhere('id < 10')
+            ->query();
+
+        $this->assertEquals('SELECT * FROM `test` WHERE `id` < 10;', $query);
+    }
+
+    /**
+     * Test if select all field in test table with greater than or equal where clause
+     */
+    public function testSelectWhereIdGreaterThanOrEqual()
+    {
+        $query = $this->dbm
+            ->select()
+            ->all()
+            ->from('test')
+            ->andWhere('id >= 5')
+            ->query();
+
+        $this->assertEquals('SELECT * FROM `test` WHERE `id` >= 5;', $query);
+    }
+
+    /**
+     * Test if select all field in test table with lesser than or equal where clause
+     */
+    public function testSelectWhereIdLesserThanOrEqual()
+    {
+        $query = $this->dbm
+            ->select()
+            ->all()
+            ->from('test')
+            ->andWhere('id <= 5')
+            ->query();
+
+        $this->assertEquals('SELECT * FROM `test` WHERE `id` <= 5;', $query);
+    }
+
+    /**
+     * Test if select all field in test table with different of where clause
+     */
+    public function testSelectWhereIdDifferentOf()
+    {
+        $query = $this->dbm
+            ->select()
+            ->all()
+            ->from('test')
+            ->andWhere('id <> 5')
+            ->query();
+
+        $this->setUp();
+
+        $query2 = $this->dbm
+            ->select()
+            ->all()
+            ->from('test')
+            ->andWhere('id != 5')
+            ->query();
+
+        $this->assertEquals('SELECT * FROM `test` WHERE `id` <> 5;', $query);
+        $this->assertEquals('SELECT * FROM `test` WHERE `id` != 5;', $query2);
+    }
 }
