@@ -9,7 +9,7 @@ class MysqlDriver implements DriverInterface
 {
     private $type;
     private $fields = [];
-    private $from = '';
+    private $from = [];
 
 
     /**
@@ -48,7 +48,7 @@ class MysqlDriver implements DriverInterface
         $field = '';
 
         if (!empty($table)) {
-            $field = '`' . $table . '.`*';
+            $field = '`' . $table . '`.*';
         }
 
         $this->fields[] = empty($field) ? '*' : $field;
@@ -61,7 +61,7 @@ class MysqlDriver implements DriverInterface
      */
     public function from(string $table): DriverInterface
     {
-        $this->from = '`' . $table . '`';
+        $this->from[] = '`' . $table . '`';
 
         return $this;
     }
@@ -80,7 +80,7 @@ class MysqlDriver implements DriverInterface
         }
 
         $query .= implode(', ', $this->fields);
-        $query .= ' FROM ' . $this->from;
+        $query .= ' FROM ' . implode(', ', $this->from);
         $query .= ';';
 
         return $query;

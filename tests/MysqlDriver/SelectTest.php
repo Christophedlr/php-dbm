@@ -41,7 +41,7 @@ class SelectTest extends TestCase
     {
         $query = $this->dbm->select()->all('test')->from('test')->query();
 
-        $this->assertEquals('SELECT `test.`* FROM `test`;', $query);
+        $this->assertEquals('SELECT `test`.* FROM `test`;', $query);
     }
 
     /**
@@ -82,5 +82,20 @@ class SelectTest extends TestCase
         $query = $this->dbm->select('name', 'test', 'n')->from('test')->query();
 
         $this->assertEquals('SELECT `test`.`name` AS `n` FROM `test`;', $query);
+    }
+
+    /**
+     * Test if select a from two tables
+     */
+    public function testSelectFromTwoTables()
+    {
+        $query = $this->dbm->
+        select('name', 'test')->
+        all('t2')->
+        from('test')->
+        from('t2')->
+        query();
+
+        $this->assertEquals('SELECT `test`.`name`, `t2`.* FROM `test`, `t2`;', $query);
     }
 }
