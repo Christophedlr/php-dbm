@@ -9,8 +9,8 @@ class MysqlDriver implements DriverInterface
 {
     private $type;
     private $fields = [];
+    private $where = [];
     private $from = [];
-
 
     /**
      @inheritDoc
@@ -67,6 +67,19 @@ class MysqlDriver implements DriverInterface
     }
 
     /**
+     @inheritDoc
+     */
+    public function andWhere(string $condition): DriverInterface
+    {
+        $this->where[] = [
+            'condition' => $condition,
+            'type' => 'and',
+        ];
+
+        return $this;
+    }
+
+    /**
     @inheritDoc
      */
     public function query(): string
@@ -81,6 +94,32 @@ class MysqlDriver implements DriverInterface
 
         $query .= implode(', ', $this->fields);
         $query .= ' FROM ' . implode(', ', $this->from);
+
+        $i = 0;
+
+        if (!empty($this->where)) {
+            $query .= ' WHERE ';
+        }
+
+        foreach ($this->where as $where) {
+            $clause = '';
+
+            if ($where['type'] === 'and' && $i > 0) {
+                $clause .= ' AND ';
+            }
+
+            $condition = preg_replace(
+                '#^(\w{1,})(\s{0,}[=]\s{0,})(.+)$#',
+                '`$1`$2$3',
+                $where['condition']
+            );
+            $clause .= (is_string($condition)) ? $condition : $where['condition'];
+            $query .= $clause;
+
+            $i++;
+        }
+
+
         $query .= ';';
 
         return $query;

@@ -33,6 +33,13 @@ interface DriverInterface
     public function from(string $table): self;
 
     /**
+     * Add and where condition
+     * @param string $condition Where clause
+     * @return $this
+     */
+    public function andWhere(string $condition): self;
+
+    /**
      * Return a query string
      * @return string
      */

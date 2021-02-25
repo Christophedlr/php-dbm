@@ -98,4 +98,35 @@ class SelectTest extends TestCase
 
         $this->assertEquals('SELECT `test`.`name`, `t2`.* FROM `test`, `t2`;', $query);
     }
+
+    /**
+     * Test if select all field in test table with equal where clause
+     */
+    public function testSelectWhereId()
+    {
+        $query = $this->dbm
+            ->select()
+            ->all()
+            ->from('test')
+            ->andWhere('id = 0')
+            ->query();
+
+        $this->assertEquals('SELECT * FROM `test` WHERE `id` = 0;', $query);
+    }
+
+    /**
+     * Test if select all field in test table with equals where clauses (AND)
+     */
+    public function testSelectWhereIdAndName()
+    {
+        $query = $this->dbm
+            ->select()
+            ->all()
+            ->from('test')
+            ->andWhere('id = 0')
+            ->andWhere('name=\'test\'')
+            ->query();
+
+        $this->assertEquals("SELECT * FROM `test` WHERE `id` = 0 AND `name`='test';", $query);
+    }
 }
