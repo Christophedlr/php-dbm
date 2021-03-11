@@ -40,6 +40,14 @@ interface DriverInterface
     public function andWhere(string $condition): self;
 
     /**
+     * Assign value to parameter
+     * @param string|int $parameter Parameter name or id
+     * @param mixed $value Value of parameter
+     * @return $this
+     */
+    public function setParameter($parameter, $value): self;
+
+    /**
      * Return a query string
      * @return string
      */

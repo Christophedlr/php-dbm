@@ -12,6 +12,7 @@ class MysqlDriver implements DriverInterface
     private $fields = [];
     private $where = [];
     private $from = [];
+    private $parameters = [];
 
     /**
      @inheritDoc
@@ -81,11 +82,43 @@ class MysqlDriver implements DriverInterface
     }
 
     /**
+     * @inheritDoc
+     */
+    public function setParameter($parameter, $value): DriverInterface
+    {
+        $this->parameters[$parameter] = $value;
+
+        return $this;
+    }
+
+    /**
     @inheritDoc
      */
     public function query(): string
     {
         $this->generate();
+
+        $pos = -1;
+        $i = 1;
+
+        while ($pos !== false) {
+            $pos = strpos($this->query, '?');
+
+            if ($pos !== false) {
+                $this->query = substr_replace(
+                    $this->query,
+                    $this->parameters[$i],
+                    $pos,
+                    1);
+                $i++;
+            }
+        }
+
+        foreach ($this->parameters as $key => $value) {
+            if (is_string($key)) {
+                $this->query = str_replace($key, $value, $this->query);
+            }
+        }
 
         return $this->query;
     }

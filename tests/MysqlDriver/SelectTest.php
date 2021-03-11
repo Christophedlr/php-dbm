@@ -214,4 +214,58 @@ class SelectTest extends TestCase
         $this->assertEquals('SELECT * FROM `test` WHERE `id` <> 5;', $query);
         $this->assertEquals('SELECT * FROM `test` WHERE `id` != 5;', $query2);
     }
+
+    /**
+     * Test if select all fields in test table with a named parameters
+     */
+    public function testSelectWhereWithNamedParameters()
+    {
+        $query = $this->dbm
+            ->select()
+            ->all()
+            ->from('test')
+            ->andWhere('id > :id')
+            ->andWhere('is_active = :active')
+            ->setParameter(':id', 5)
+            ->setParameter(':active', 1)
+            ->query();
+
+        $this->assertEquals('SELECT * FROM `test` WHERE `id` > 5 AND `is_active` = 1;', $query);
+    }
+
+    /**
+     * Test if select all fields in test table with a marker parameters
+     */
+    public function testSelectWhereWithMarkerParameters()
+    {
+        $query = $this->dbm
+            ->select()
+            ->all()
+            ->from('test')
+            ->andWhere('id > ?')
+            ->andWhere('is_active = ?')
+            ->setParameter(1, 5)
+            ->setParameter(2, 1)
+            ->query();
+
+        $this->assertEquals('SELECT * FROM `test` WHERE `id` > 5 AND `is_active` = 1;', $query);
+    }
+
+    /**
+     * Test if select all fields in test table with a maker and named parameters
+     */
+    public function testSelectWhereWithMarkerAndNamedParameters()
+    {
+        $query = $this->dbm
+            ->select()
+            ->all()
+            ->from('test')
+            ->andWhere('id > ?')
+            ->andWhere('is_active = :active')
+            ->setParameter(':active', 1)
+            ->setParameter(1, 5)
+            ->query();
+
+        $this->assertEquals('SELECT * FROM `test` WHERE `id` > 5 AND `is_active` = 1;', $query);
+    }
 }
