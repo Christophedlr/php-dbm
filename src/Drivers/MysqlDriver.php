@@ -2,7 +2,6 @@
 
 namespace Christophedlr\Dbm\Drivers;
 
-use Christophedlr\Dbm\Dbm;
 use Christophedlr\Dbm\Template\DriverInterface;
 
 class MysqlDriver implements DriverInterface
@@ -15,7 +14,7 @@ class MysqlDriver implements DriverInterface
     private $parameters = [];
 
     /**
-     @inheritDoc
+     * @inheritDoc
      */
     public function select(string $field = '', string $table = '', string $as = ''): DriverInterface
     {
@@ -43,7 +42,7 @@ class MysqlDriver implements DriverInterface
     }
 
     /**
-    @inheritDoc
+     * @inheritDoc
      */
     public function all(string $table = ''): DriverInterface
     {
@@ -59,7 +58,7 @@ class MysqlDriver implements DriverInterface
     }
 
     /**
-    @inheritDoc
+     * @inheritDoc
      */
     public function from(string $table): DriverInterface
     {
@@ -69,7 +68,7 @@ class MysqlDriver implements DriverInterface
     }
 
     /**
-     @inheritDoc
+     * @inheritDoc
      */
     public function andWhere(string $condition): DriverInterface
     {
@@ -92,7 +91,7 @@ class MysqlDriver implements DriverInterface
     }
 
     /**
-    @inheritDoc
+     * @inheritDoc
      */
     public function query(): string
     {
