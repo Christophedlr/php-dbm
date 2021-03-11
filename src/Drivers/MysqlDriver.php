@@ -8,6 +8,7 @@ use Christophedlr\Dbm\Template\DriverInterface;
 class MysqlDriver implements DriverInterface
 {
     private $type;
+    private $query;
     private $fields = [];
     private $where = [];
     private $from = [];
@@ -84,6 +85,16 @@ class MysqlDriver implements DriverInterface
      */
     public function query(): string
     {
+        $this->generate();
+
+        return $this->query;
+    }
+
+    /**
+     * Generate a query string
+     */
+    protected function generate()
+    {
         $query = '';
 
         switch ($this->type) {
@@ -119,9 +130,8 @@ class MysqlDriver implements DriverInterface
             $i++;
         }
 
-
         $query .= ';';
 
-        return $query;
+        $this->query = $query;
     }
 }
